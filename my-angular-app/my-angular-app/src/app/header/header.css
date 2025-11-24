@@ -1,0 +1,12 @@
+
+.app-header {
+  background-color: black;
+  text-align: center;
+  padding: 20px 0;
+}
+
+h1 {
+  color: red;
+  margin: 1;
+  font-size: 2em;
+}
