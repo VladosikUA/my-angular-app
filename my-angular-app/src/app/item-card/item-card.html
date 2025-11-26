@@ -1,0 +1,9 @@
+<div style="border: 1px solid #ccc; padding: 10px; width: 200px;">
+  <img [src]="item.imageUrl" alt="image" width="100%">
+
+  <h3>{{ item.title }}</h3>
+  <p>Магазин: {{ item.store }}</p>
+  <p>Стара ціна: <s>{{ item.oldPrice }} грн</s></p>
+  <p><b>Нова ціна: {{ item.newPrice }} грн</b></p>
+  <p>Діє до: {{ item.validUntil }}</p>
+</div>
