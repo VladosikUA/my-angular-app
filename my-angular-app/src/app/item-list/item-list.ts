@@ -36,7 +36,7 @@ export class ItemList {
       title: 'Знижка на кавоварку',
       store: 'Foxtrot',
       oldPrice: 8000,
-      newPrice: 5999,
+      newPrice: 3999,
       validUntil: '2025-11-30',
       imageUrl: 'https://content.rozetka.com.ua/goods/images/big_tile/473894722.jpg'
     }
