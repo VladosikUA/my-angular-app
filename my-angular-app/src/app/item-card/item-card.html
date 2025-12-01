@@ -1,18 +1,33 @@
 <div 
-  [ngClass]="{ 'discount-green': item.newPrice < 6000 }"
-  style="border: 1px solid #ccc; padding: 10px; width: 200px; border-radius: 8px;">
-
-  <div 
-    *ngIf="(item.oldPrice - item.newPrice) / item.oldPrice > 0.3"
-    style="background-color: red; color: white; padding: 3px 5px; border-radius: 5px; text-align:center; margin-bottom: 5px;">
-  КРАЩА ЦІНА! 
+  class="item-card"
+  [ngClass]="{ 'discount-green': item.newPrice < 6000 }">
+  <div class="badge-area">
+    <div 
+      *ngIf="(item.oldPrice - item.newPrice) / item.oldPrice > 0.3"
+      class="best-price">
+      КРАЩА ЦІНА!
+    </div>
   </div>
-
-  <img [src]="item.imageUrl" alt="image" width="100%">
+  <img 
+    class="item-image"
+    [src]="item.imageUrl" 
+    alt="image">
 
   <h3>{{ item.title }}</h3>
+
   <p>Магазин: {{ item.store }}</p>
-  <p>Стара ціна: <s>{{ item.oldPrice }} грн</s></p>
+
+  <p>Стара ціна: 
+    <s>{{ item.oldPrice }} грн</s>
+  </p>
+
   <p><b>Нова ціна: {{ item.newPrice }} грн</b></p>
+
   <p>Діє до: {{ item.validUntil }}</p>
+
+  <button 
+    (click)="onSelectItem()" 
+    style="margin-top: 10px; width: 100%; padding: 6px;">
+    Детальніше
+  </button>
 </div>

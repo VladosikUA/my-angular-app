@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DiscountItem } from '../shared/models/discount-item.model';
 
@@ -11,4 +11,10 @@ import { DiscountItem } from '../shared/models/discount-item.model';
 })
 export class ItemCard {
   @Input() item!: DiscountItem;
+
+  @Output() itemSelected = new EventEmitter<DiscountItem>();
+
+  onSelectItem() {
+    this.itemSelected.emit(this.item);
+  }
 }
