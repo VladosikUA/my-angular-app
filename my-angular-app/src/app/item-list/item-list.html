@@ -3,18 +3,19 @@
 <input 
   type="text" 
   [(ngModel)]="searchTerm" 
+  (ngModelChange)="onSearchChange()"
   placeholder="Пошук за назвою..."
   style="padding: 5px; margin-bottom: 15px; width: 250px;">
 
 <div 
-  *ngIf="filteredItems().length === 0" 
+  *ngIf="items.length === 0" 
   style="color: red; font-size: 18px; margin-top: 10px;">
   Нічого не знайдено
 </div>
 
 <div style="display: flex; flex-wrap: wrap; gap: 15px;">
   <app-item-card
-    *ngFor="let item of filteredItems()"
+    *ngFor="let item of items"
     [item]="item"
     (itemSelected)="onItemSelected($event)">
   </app-item-card>

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { DiscountItem } from '../models/discount-item.model';
 
 @Injectable({
@@ -36,7 +37,19 @@ export class DataService {
     }
   ];
 
-  getItems(): DiscountItem[] {
-    return this.items;
+  private itemsSubject = new BehaviorSubject<DiscountItem[]>(this.items);
+  items$ = this.itemsSubject.asObservable();
+
+  constructor() {}
+
+  getItems(): Observable<DiscountItem[]> {
+    return of(this.items);
+  }
+
+  filterItems(search: string) {
+    const filtered = this.items.filter(item =>
+      item.title.toLowerCase().includes(search.toLowerCase())
+    );
+    this.itemsSubject.next(filtered);
   }
 }
