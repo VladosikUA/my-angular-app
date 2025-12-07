@@ -1,0 +1,15 @@
+form {
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.error {
+  color: red;
+  font-size: 13px;
+}
+
+input {
+  padding: 5px;
+}

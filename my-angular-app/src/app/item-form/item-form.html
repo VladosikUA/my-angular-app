@@ -1,0 +1,55 @@
+<h2>Додати акційну позицію</h2>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+  <label>Назва товару</label>
+  <input formControlName="title" />
+  <div class="error" *ngIf="form.controls.title.invalid && form.controls.title.touched">
+    <div *ngIf="form.controls.title.errors?.['required']">Поле обов'язкове</div>
+    <div *ngIf="form.controls.title.errors?.['minlength']">Мінімум 3 символи</div>
+  </div>
+
+  <label>Магазин</label>
+  <input formControlName="store" />
+  <div class="error" *ngIf="form.controls.store.invalid && form.controls.store.touched">
+    <div *ngIf="form.controls.store.errors?.['required']">Вкажіть магазин</div>
+  </div>
+
+  <label>Стара ціна</label>
+  <input type="number" formControlName="oldPrice" />
+  <div class="error" *ngIf="form.controls.oldPrice.invalid && form.controls.oldPrice.touched">
+    <div *ngIf="form.controls.oldPrice.errors?.['required']">Поле обов'язкове</div>
+    <div *ngIf="form.controls.oldPrice.errors?.['min']">Ціна повинна бути більше 0</div>
+  </div>
+
+  <label>Нова ціна</label>
+  <input type="number" formControlName="newPrice" />
+  <div class="error" *ngIf="form.controls.newPrice.invalid && form.controls.newPrice.touched">
+    <div *ngIf="form.controls.newPrice.errors?.['required']">Поле обов'язкове</div>
+    <div *ngIf="form.controls.newPrice.errors?.['min']">Ціна повинна бути більше 0</div>
+  </div>
+
+  <label>Діє до</label>
+  <input type="date" formControlName="validUntil" />
+  <div class="error" *ngIf="form.controls.validUntil.invalid && form.controls.validUntil.touched">
+    <div *ngIf="form.controls.validUntil.errors?.['required']">Вкажіть дату</div>
+  </div>
+
+  <label>URL зображення</label>
+  <input formControlName="imageUrl" />
+  <div class="error" *ngIf="form.controls.imageUrl.invalid && form.controls.imageUrl.touched">
+    <div *ngIf="form.controls.imageUrl.errors?.['required']">Поле обов'язкове</div>
+    <div *ngIf="form.controls.imageUrl.errors?.['pattern']">URL має починатися з http:// або https://</div>
+  </div>
+
+  <button type="submit" style="
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;">
+    Додати товар
+  </button>
+</form>

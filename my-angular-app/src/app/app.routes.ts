@@ -17,6 +17,10 @@ export const routes: Routes = [
       {
         path: 'items/:id',
         loadComponent: () => import('./Item-details/item-details').then(m => m.ItemDetailsComponent)
+      },
+      {
+        path: 'add-item',
+        loadComponent: () => import('./item-form/item-form').then(m => m.ItemFormComponent)
       }
     ]
   }

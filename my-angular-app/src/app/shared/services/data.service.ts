@@ -52,4 +52,8 @@ export class DataService {
     );
     this.itemsSubject.next(filtered);
   }
+addItem(item: DiscountItem) {
+  this.items.push(item);
+  this.itemsSubject.next([...this.items]);
+}
 }

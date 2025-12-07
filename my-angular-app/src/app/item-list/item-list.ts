@@ -5,20 +5,19 @@ import { Observable } from 'rxjs';
 import { DiscountItem } from '../shared/models/discount-item.model';
 import { ItemCard } from '../item-card/item-card';
 import { DataService } from '../shared/services/data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-item-list',
   standalone: true,
   imports: [CommonModule, FormsModule, ItemCard],
   templateUrl: './item-list.html',
-  styleUrl: './item-list.css',
 })
 export class ItemList {
   searchTerm: string = '';
-
   items$!: Observable<DiscountItem[]>;
 
-  constructor(private dataService: DataService) {
+  constructor(private dataService: DataService, private router: Router) {
     this.items$ = this.dataService.items$;
   }
 
@@ -28,5 +27,9 @@ export class ItemList {
 
   onItemSelected(item: DiscountItem) {
     alert("Вибрано: " + item.title);
+  }
+
+  goToAddItem() {
+    this.router.navigate(['/add-item']);
   }
 }

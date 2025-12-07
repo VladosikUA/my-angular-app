@@ -1,5 +1,18 @@
 <h2>Актуальні знижки</h2>
 
+<div style="margin-bottom: 15px;">
+  <button (click)="goToAddItem()" style="
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;">
+    Додати акційну позицію
+  </button>
+</div>
+
 <input 
   type="text" 
   [(ngModel)]="searchTerm" 
@@ -7,9 +20,7 @@
   placeholder="Пошук за назвою..."
   style="padding: 5px; margin-bottom: 15px; width: 250px;">
 
-<div 
-  *ngIf="(items$ | async)?.length === 0" 
-  style="color: red; font-size: 18px; margin-top: 10px;">
+<div *ngIf="(items$ | async)?.length === 0" style="color: red; font-size: 18px; margin-top: 10px;">
   Нічого не знайдено
 </div>
 
