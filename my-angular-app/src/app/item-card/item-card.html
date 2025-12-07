@@ -25,9 +25,9 @@
 
   <p>Діє до: {{ item.validUntil }}</p>
 
-  <button 
-    (click)="onSelectItem()" 
-    style="margin-top: 10px; width: 100%; padding: 6px;">
-    Детальніше
-  </button>
+<a 
+  [routerLink]="['/items', item.id]"
+  class="details-btn">
+  Детальніше
+</a>
 </div>

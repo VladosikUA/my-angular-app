@@ -1,0 +1,22 @@
+<div *ngIf="item; else notFound" class="details-container">
+  <img [src]="item.imageUrl" alt="image" class="details-image">
+
+  <h2>{{ item.title }}</h2>
+  <p><b>Магазин:</b> {{ item.store }}</p>
+
+  <p>
+    <b>Стара ціна:</b> <s>{{ item.oldPrice }} грн</s>
+  </p>
+
+  <p><b>Нова ціна:</b> {{ item.newPrice }} грн</p>
+
+  <p><b>Діє до:</b> {{ item.validUntil }}</p >
+
+ <button (click)="goBack()" class="back-btn">
+  ⬅ Повернутись назад
+</button>
+</div>
+
+<ng-template #notFound>
+  <h3>Елемент не знайдено.</h3>
+</ng-template>

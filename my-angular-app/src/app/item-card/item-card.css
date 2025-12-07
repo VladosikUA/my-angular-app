@@ -33,3 +33,17 @@
   object-fit: contain;
   width: 100%;
 }
+.details-btn {
+  display: block;
+  text-align: center;
+  padding: 8px;
+  background: #007bff;
+  color: white;
+  text-decoration: none;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.details-btn:hover {
+  background: #0056b3;
+}

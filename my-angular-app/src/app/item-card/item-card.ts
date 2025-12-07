@@ -1,13 +1,14 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { DiscountItem } from '../shared/models/discount-item.model';
 
 @Component({
   selector: 'app-item-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './item-card.html',
-  styleUrl: './item-card.css',
+  styleUrls: ['./item-card.css'],
 })
 export class ItemCard {
   @Input() item!: DiscountItem;
