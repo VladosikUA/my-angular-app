@@ -8,14 +8,14 @@
   style="padding: 5px; margin-bottom: 15px; width: 250px;">
 
 <div 
-  *ngIf="items.length === 0" 
+  *ngIf="(items$ | async)?.length === 0" 
   style="color: red; font-size: 18px; margin-top: 10px;">
   Нічого не знайдено
 </div>
 
 <div style="display: flex; flex-wrap: wrap; gap: 15px;">
   <app-item-card
-    *ngFor="let item of items"
+    *ngFor="let item of (items$ | async)"
     [item]="item"
     (itemSelected)="onItemSelected($event)">
   </app-item-card>

@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { DiscountItem } from '../shared/models/discount-item.model';
 import { ItemCard } from '../item-card/item-card';
 import { DataService } from '../shared/services/data.service';
@@ -13,19 +13,13 @@ import { DataService } from '../shared/services/data.service';
   templateUrl: './item-list.html',
   styleUrl: './item-list.css',
 })
-export class ItemList implements OnInit, OnDestroy {
-
+export class ItemList {
   searchTerm: string = '';
-  items: DiscountItem[] = [];
 
-  private subscription!: Subscription;
+  items$!: Observable<DiscountItem[]>;
 
-  constructor(private dataService: DataService) {}
-
-  ngOnInit(): void {
-    this.subscription = this.dataService.items$.subscribe(data => {
-      this.items = data;
-    });
+  constructor(private dataService: DataService) {
+    this.items$ = this.dataService.items$;
   }
 
   onSearchChange() {
@@ -34,11 +28,5 @@ export class ItemList implements OnInit, OnDestroy {
 
   onItemSelected(item: DiscountItem) {
     alert("Вибрано: " + item.title);
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 }

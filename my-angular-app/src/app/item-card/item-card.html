@@ -1,5 +1,6 @@
 <div 
   class="item-card"
+  hoverHighlight
   [ngClass]="{ 'discount-green': item.newPrice < 6000 }">
   <div class="badge-area">
     <div 
@@ -13,7 +14,7 @@
     [src]="item.imageUrl" 
     alt="image">
 
-  <h3>{{ item.title }}</h3>
+<h3>{{ item.title | truncate:22 }}</h3>
 
   <p>Магазин: {{ item.store }}</p>
 
