@@ -26,9 +26,9 @@
 
   <p>Діє до: {{ item.validUntil }}</p>
 
-<a 
-  [routerLink]="['/items', item.id]"
-  class="details-btn">
+<button
+  class="details-btn"
+  [routerLink]="['/items', item.id]">
   Детальніше
-</a>
+</button>
 </div>

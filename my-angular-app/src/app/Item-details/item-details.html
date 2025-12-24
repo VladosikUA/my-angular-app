@@ -1,22 +1,28 @@
-<div *ngIf="item; else notFound" class="details-container">
-  <img [src]="item.imageUrl" alt="image" class="details-image">
+<div class="details-container">
+  <div *ngIf="isLoading" class="loading-state">
+    <p>Завантаження...</p>
+  </div>
 
-  <h2>{{ item.title }}</h2>
-  <p><b>Магазин:</b> {{ item.store }}</p>
+  <div *ngIf="!isLoading && item" class="item-card-detail">
+    <div class="image-wrapper">
+      <img [src]="item.imageUrl" [alt]="item.title" class="detail-image">
+    </div>
+    
+    <div class="content">
+      <h2>{{ item.title }}</h2>
+      <p><strong>Магазин:</strong> {{ item.store }}</p>
+      <div class="prices">
+        <p class="old-price">Стара ціна: <span>{{ item.oldPrice }} грн</span></p>
+        <p class="new-price">Нова ціна: <span>{{ item.newPrice }} грн</span></p>
+      </div>
+      <p><strong>Діє до:</strong> {{ item.validUntil }}</p>
 
-  <p>
-    <b>Стара ціна:</b> <s>{{ item.oldPrice }} грн</s>
-  </p>
+      <button (click)="goBack()" class="back-btn">← Повернутись назад</button>
+    </div>
+  </div>
 
-  <p><b>Нова ціна:</b> {{ item.newPrice }} грн</p>
-
-  <p><b>Діє до:</b> {{ item.validUntil }}</p >
-
- <button (click)="goBack()" class="back-btn">
-  ⬅ Повернутись назад
-</button>
+  <div *ngIf="!isLoading && !item" class="error-state">
+    <p>Елемент не знайдено</p>
+    <button (click)="goBack()" class="back-btn">Повернутись</button>
+  </div>
 </div>
-
-<ng-template #notFound>
-  <h3>Елемент не знайдено.</h3>
-</ng-template>

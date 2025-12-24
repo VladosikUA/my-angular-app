@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -13,23 +13,30 @@ import { Router } from '@angular/router';
   imports: [CommonModule, FormsModule, ItemCard],
   templateUrl: './item-list.html',
 })
-export class ItemList {
+export class ItemList implements OnInit {
+
   searchTerm: string = '';
   items$!: Observable<DiscountItem[]>;
 
-  constructor(private dataService: DataService, private router: Router) {
+  constructor(
+    private dataService: DataService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
     this.items$ = this.dataService.items$;
+    this.dataService.getItems().subscribe();
   }
 
-  onSearchChange() {
+  onSearchChange(): void {
     this.dataService.filterItems(this.searchTerm);
   }
 
-  onItemSelected(item: DiscountItem) {
-    alert("Вибрано: " + item.title);
+  onItemSelected(item: DiscountItem): void {
+    alert('Вибрано: ' + item.title);
   }
 
-  goToAddItem() {
+  goToAddItem(): void {
     this.router.navigate(['/add-item']);
   }
 }

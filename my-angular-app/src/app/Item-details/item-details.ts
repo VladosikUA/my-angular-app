@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core'; // Додано ChangeDetectorRef
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../shared/services/data.service';
 import { DiscountItem } from '../shared/models/discount-item.model';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-item-details',
@@ -13,23 +12,41 @@ import { Location } from '@angular/common';
   styleUrls: ['./item-details.css'],
 })
 export class ItemDetailsComponent implements OnInit {
-
-  item!: DiscountItem | undefined;
+  item: DiscountItem | null = null;
+  isLoading = true;
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private dataService: DataService,
-    private location: Location
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.dataService.getItems().subscribe(items => {
-      this.item = items.find(i => i.id === id);
+
+    if (!id) {
+      this.isLoading = false;
+      this.cdr.markForCheck();
+      return;
+    }
+
+    this.dataService.getItemById(id).subscribe({
+      next: (item) => {
+        this.item = item;
+        this.isLoading = false;
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+        console.error('Помилка завантаження:', err);
+        this.item = null;
+        this.isLoading = false;
+        this.cdr.markForCheck();
+      }
     });
   }
 
-  goBack() {
-    this.location.back();
+  goBack(): void {
+    this.router.navigate(['/items']);
   }
 }

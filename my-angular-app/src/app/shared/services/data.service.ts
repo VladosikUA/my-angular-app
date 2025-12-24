@@ -1,59 +1,66 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { DiscountItem } from '../models/discount-item.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-
-  private items: DiscountItem[] = [
-    {
-      id: 1,
-      title: 'Знижка на смартфон',
-      store: 'Comfy',
-      oldPrice: 12000,
-      newPrice: 8999,
-      validUntil: '2025-12-01',
-      imageUrl: 'https://th.bing.com/th/id/OIP.sjDmmqF77-usz7TOHHdkywHaFj?w=268&h=201&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3'
-    },
-    {
-      id: 2,
-      title: 'Акція на ноутбук',
-      store: 'Rozetka',
-      oldPrice: 25000,
-      newPrice: 19999,
-      validUntil: '2025-12-10',
-      imageUrl: 'https://i.moyo.ua/img/smart_filters/pp_0EXXzP_image_1694680030.jpg'
-    },
-    {
-      id: 3,
-      title: 'Знижка на кавоварку',
-      store: 'Foxtrot',
-      oldPrice: 8000,
-      newPrice: 3999,
-      validUntil: '2025-11-30',
-      imageUrl: 'https://content.rozetka.com.ua/goods/images/big_tile/473894722.jpg'
-    }
-  ];
-
-  private itemsSubject = new BehaviorSubject<DiscountItem[]>(this.items);
+  private itemsSubject = new BehaviorSubject<DiscountItem[]>([]);
   items$ = this.itemsSubject.asObservable();
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   getItems(): Observable<DiscountItem[]> {
-    return of(this.items);
+    return this.http.get<DiscountItem[]>('/items').pipe(
+      tap(items => this.itemsSubject.next(items)),
+      catchError(this.handleError)
+    );
   }
 
-  filterItems(search: string) {
-    const filtered = this.items.filter(item =>
-      item.title.toLowerCase().includes(search.toLowerCase())
+  getItemById(id: number): Observable<DiscountItem> {
+    return this.http.get<DiscountItem>(`/items/${id}`).pipe(
+      catchError(this.handleError)
     );
-    this.itemsSubject.next(filtered);
   }
-addItem(item: DiscountItem) {
-  this.items.push(item);
-  this.itemsSubject.next([...this.items]);
-}
+
+  addItem(item: Omit<DiscountItem, 'id'>): Observable<DiscountItem> {
+    return this.http.post<DiscountItem>('/items', item).pipe(
+      tap(() => this.getItems().subscribe()),
+      catchError(this.handleError)
+    );
+  }
+
+  filterItems(term: string): void {
+    if (!term.trim()) {
+      this.getItems().subscribe();
+      return;
+    }
+
+    this.http.get<DiscountItem[]>(`/items?q=${encodeURIComponent(term)}`).pipe(
+      catchError(this.handleError)
+    ).subscribe(items => {
+      this.itemsSubject.next(items);
+    });
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    let errorMessage = 'Сталася помилка при роботі з даними';
+
+    if (error.status === 0) {
+      errorMessage = 'Відсутнє з’єднання з сервером. Перевірте, чи запущено json-server.';
+    } else if (error.status === 404) {
+      errorMessage = 'Запитувані дані не знайдено на сервері (Помилка 404).';
+    } else {
+      errorMessage = `Сервер повернув помилку з кодом ${error.status}: ${error.message}`;
+    }
+
+    window.alert(errorMessage);
+
+    console.error('Деталі помилки:', error);
+
+    return throwError(() => new Error(errorMessage));
+  }
 }
